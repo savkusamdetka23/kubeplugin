@@ -22,17 +22,17 @@ To show nodes or pods information, just provide Namespace name and Resource type
     kubectl kubeplugin kube-system node
     kubectl kubeplugin kube-system pod
 
-    ![Alt text](img/pluginDemo.png)
+![Alt text](img/pluginDemo.png)
     
     kubectl kubeplugin demo node
     kubectl kubeplugin demo pod
 
-    ![Alt text](img/pluginDemo1.png)
+![Alt text](img/pluginDemo1.png)
 
     kubectl kubeplugin argocd node
     kubectl kubeplugin argocd pod
 
-    ![Alt text](img/pluginDemo2.png)
+![Alt text](img/pluginDemo2.png)
 
     
 ## Testing plugin as script 
