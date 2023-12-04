@@ -43,9 +43,9 @@ Examples of using script locally
 To show nodes or pods information, just provide Namespace name and Resource type: 
 `bash script/kubeplugin.sh <namespace> <resource>`
 
-    bash script/kubeplugin.sh kube-system node
-    bash script/kubeplugin.sh kube-system pod
-    bash script/kubeplugin.sh demo node
-    bash script/kubeplugin.sh demo pod
-    bash script/kubeplugin.sh argocd node
-    bash script/kubeplugin.sh argocd pod
+    bash script/kubeplugin kube-system node
+    bash script/kubeplugin kube-system pod
+    bash script/kubeplugin demo node
+    bash script/kubeplugin demo pod
+    bash script/kubeplugin argocd node
+    bash script/kubeplugin argocd pod
