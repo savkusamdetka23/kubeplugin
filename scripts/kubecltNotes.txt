@@ -1,0 +1,88 @@
+kubectl
+https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+k api-resources
+k top nodes
+k top po
+
+k get all -A
+k api-resources
+k get namespaces -v 8
+k get namespaces -v 8
+
+k proxy&
+curl http://127.0.0.1:8001/api/v1/namespaces
+
+k get componentstatus #cs
+$ k get --raw='/readyz?verbose'
+curl http://127.0.0.1:8001/livez\?verbose
+
+k get ns
+k get all -n kube-system
+
+k get ns -o json
+k get ns -o yaml
+
+k run nginx --image nginx --dry-run=client -o yaml
+
+k run nginx --image nginx
+k run nginx --image nginx -o yaml | tee >nginx-pod.yaml
+k run nginx --image nginx --dry-run=client  -o yaml | tee >nginx-pod.yaml
+cat nginx-pod.yaml 
+
+k create -f nginx-pod.yaml
+k apply -f nginx-pod.yaml
+code nginx-pod.yaml
+k apply -f nginx-pod.yaml
+k get po --show-labels 
+
+k create deploy nginx --image nginx
+k get all
+k get po -o wide --show-labels
+k get rs -o wide --show-labels 
+k get deploy -o wide --show-labels 
+k get po -lapp=nginx -Lapp
+
+k delete -f nginx-pod.yaml
+k get po
+k delete po nginx-77b4fdf86c-jggnk
+k delete po nginx-77b4fdf86c-jggnk --grace-period=0 --force
+
+k appl
+k apply -f - <<EOF
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: nginx
+    version: v1.0.23
+  name: nginx
+spec:
+  containers:
+  - image: nginx
+    name: nginx
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+EOF
+
+
+k apply -f https://raw.githubusercontent.com/den-vasyliev/go-demo-app/master/yaml/app.yaml
+
+
+KTOP installation:
+
+(
+  set -x; cd "$(mktemp -d)" &&
+  OS="$(uname | tr '[:upper:]' '[:lower:]')" &&
+  ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&
+  KREW="krew-${OS}_${ARCH}" &&
+  curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&
+  tar zxvf "${KREW}.tar.gz" &&
+  ./"${KREW}" install krew
+)
+
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+kubectl krew install ktop
