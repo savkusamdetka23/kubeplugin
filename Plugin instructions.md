@@ -18,7 +18,9 @@ You can use "kubeplugin.sh" file from the scripts folder in current repository.
 ## Plugin usage
 
 Examples of using as kubectl plugin
-To show nodes or pods information, just provide Namespace name and Resource type: `kubectl kubeplugin <namespace> <resource>`
+To show nodes or pods information, just provide Namespace name and Resource type: 
+`kubectl kubeplugin <namespace> <resource>`
+
     kubectl kubeplugin kube-system node
     kubectl kubeplugin kube-system pod
 
@@ -38,7 +40,8 @@ To show nodes or pods information, just provide Namespace name and Resource type
 ## Testing plugin as script 
 
 Examples of using script locally
-To show nodes or pods information, just provide Namespace name and Resource type: `bash script/kubeplugin.sh <namespace> <resource>`
+To show nodes or pods information, just provide Namespace name and Resource type: 
+`bash script/kubeplugin.sh <namespace> <resource>`
 
     bash script/kubeplugin.sh kube-system node
     bash script/kubeplugin.sh kube-system pod
