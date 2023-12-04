@@ -1,57 +1,39 @@
 #!/bin/bash
 
-# Check if kubectl is installed
-if ! command -v kubectl &> /dev/null; then
-    echo "kubectl is not installed. Please install kubectl and try again."
-    exit 1
-fi
+# Define command-line arguments
+NAMESPACE=$1
+RESOURCE_TYPE=$2
+RESOURCE_NAME=$3
 
 # Function to print section headers
 print_section_header() {
     echo -e "\n\e[1m$1\e[0m"
 }
 
-# Display API server information
-print_section_header "API Server Information:"
-kubectl cluster-info
+# Function to display resource information (pod or node)
+display_resource_info() {
+    local namespace=$1
+    local resource_type=$2
+    local resource_name=$3
 
-# Function to print a table
-print_table() {
-  local header=("$@")
-  printf "%-25s" "${header[@]}"
-  printf "\n"
+    print_section_header "Resource Information - $resource_type in Namespace: $namespace"
+
+    echo "${header[*]}" | column -t
+
+    kubectl top $resource_type $resource_name --namespace="$namespace" | while read -r resource
+    do
+        NAME=$(echo "$resource" | awk '{print $1}')
+        CPU_USAGE=$(echo "$resource" | awk '{print $2}')
+        MEMORY_USAGE=$(echo "$resource" | awk '{print $3}')
+        echo "$resource_type $namespace $NAME $CPU_USAGE $MEMORY_USAGE" | column -t
+    done | column -t
 }
 
-# Display cluster summary
-print_section_header "Cluster Summary:"
-header=("Node" "CPU Usage" "Memory Usage")
-print_table "${header[@]}"
-kubectl top nodes | while read -r node
-do
-  NAME=$(echo "$node" | awk '{print $1}')
-  CPU_USAGE=$(echo "$node" | awk '{print $2}')
-  MEMORY_USAGE=$(echo "$node" | awk '{print $3}')
-  print_table "$NAME" "$CPU_USAGE" "$MEMORY_USAGE"
-done
+# Check if namespace and resource type are provided as parameters
+if [ $# -lt 2 ]; then
+    echo "Usage: $0 <namespace> <resource-type> <resource-name>"
+    exit 1
+fi
 
-# Display list of nodes
-print_section_header "List of Nodes:"
-header=("Node" "Status" "Age" "Version" "External IPs")
-print_table "${header[@]}"
-kubectl get nodes -o custom-columns="NAME:.metadata.name,STATUS:.status.conditions[0].type,AGE:.metadata.creationTimestamp,VERSION:.status.nodeInfo.kubeletVersion,EXTERNAL_IPS:.status.addresses[0].address" | while read -r node
-do
-  print_table $node
-done
-
-# Display list of pods
-print_section_header "List of Pods:"
-header=("Namespace" "Pod" "CPU Usage" "Memory Usage")
-print_table "${header[@]}"
-kubectl top pods --all-namespaces | while read -r pod
-do
-  NAMESPACE=$(echo "$pod" | awk '{print $1}')
-  NAME=$(echo "$pod" | awk '{print $2}')
-  CPU_USAGE=$(echo "$pod" | awk '{print $3}')
-  MEMORY_USAGE=$(echo "$pod" | awk '{print $4}')
-  print_table "$NAMESPACE" "$NAME" "$CPU_USAGE" "$MEMORY_USAGE"
-done
+# Execute the function to display resource information
+display_resource_info "$NAMESPACE" "$RESOURCE_TYPE" "$RESOURCE_NAME"
