@@ -38,11 +38,11 @@ To show nodes or pods information, just provide Namespace name and Resource type
 ## Testing plugin as script 
 
 Examples of using script locally
-To show nodes or pods information, just provide Namespace name and Resource type: `bash .script/kubeplugin.sh <namespace> <resource>`
+To show nodes or pods information, just provide Namespace name and Resource type: `bash script/kubeplugin.sh <namespace> <resource>`
 
-    bash .script/kubeplugin.sh kube-system node
-    bash .script/kubeplugin.sh kube-system pod
-    bash .script/kubeplugin.sh demo node
-    bash .script/kubeplugin.sh demo pod
-    bash .script/kubeplugin.sh argocd node
-    bash .script/kubeplugin.sh argocd pod
+    bash script/kubeplugin.sh kube-system node
+    bash script/kubeplugin.sh kube-system pod
+    bash script/kubeplugin.sh demo node
+    bash script/kubeplugin.sh demo pod
+    bash script/kubeplugin.sh argocd node
+    bash script/kubeplugin.sh argocd pod
